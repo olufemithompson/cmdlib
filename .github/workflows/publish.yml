@@ -22,11 +22,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Upgrade npm
-        run: npm install -g npm@latest
-
       - name: Copy README
         run: cp ../README.md README.md
 
       - name: Publish
-        run: npm publish --provenance --access public
+        run: npx npm@latest publish --provenance --access public
