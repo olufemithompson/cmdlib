@@ -1,6 +1,6 @@
 {
   "name": "cmdlib",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "type": "module",
   "description": "Your personal command library — search, save and run shell commands",
   "main": "index.js",
