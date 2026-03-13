@@ -24,6 +24,10 @@
     "history",
     "productivity"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/olufemithompson/cmdlib.git"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
