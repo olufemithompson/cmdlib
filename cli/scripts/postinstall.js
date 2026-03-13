@@ -107,8 +107,11 @@ function install() {
 
   try {
     fs.appendFileSync(configFile, WRAPPER);
-    console.log(`\ncmdlib: Shell wrapper installed to ${configFile}`);
-    console.log(`        Restart your terminal or run: source ${configFile}\n`);
+    console.log(`\n${"─".repeat(50)}`);
+    console.log(`  cmdlib: shell wrapper installed!`);
+    console.log(`  → Restart your terminal, or run:`);
+    console.log(`    source ${configFile}`);
+    console.log(`${"─".repeat(50)}\n`);
   } catch (err) {
     console.log(
       `\ncmdlib: Could not write to ${configFile} (${err.message}). Run \`cmdlib --setup\` for manual setup.\n`
