@@ -21,11 +21,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Copy README
         run: cp ../README.md README.md
 
       - name: Publish
-        run: npx npm@latest publish --provenance --access public
+        run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
