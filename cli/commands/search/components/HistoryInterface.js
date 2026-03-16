@@ -50,9 +50,9 @@ export class HistoryInterface {
   }
 
   _applyFilter() {
-    const q = this.searchQuery.toLowerCase();
-    this.filteredItems = q
-      ? this.allItems.filter((cmd) => cmd.toLowerCase().includes(q))
+    const words = this.searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
+    this.filteredItems = words.length
+      ? this.allItems.filter((cmd) => words.every((w) => cmd.toLowerCase().includes(w)))
       : [...this.allItems];
     this.selectedIndex = -1;
     this.scrollOffset = 0;
@@ -158,9 +158,9 @@ export class HistoryInterface {
 
   getFooterText() {
     if (this.hasSelection()) {
-      return "[↑↓] select | [Enter] run | [Ctrl+A] Add | [Esc] exit";
+      return "[↑↓] select | [Enter] run | [Ctrl+A] Add | [Esc] Go back";
     }
-    return "[↑↓] select | [←→] cursor | [Esc] exit";
+    return "[↑↓] select | [←→] cursor | [Esc] Go back";
   }
 
   reset() {

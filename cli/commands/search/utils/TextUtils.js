@@ -4,7 +4,8 @@ export class TextUtils {
   static highlightMatch(text, query) {
     if (!query) return text;
     try {
-      const regex = new RegExp(`(${this.escapeRegex(query)})`, "ig");
+      const words = query.trim().split(/\s+/).map(this.escapeRegex);
+      const regex = new RegExp(`(${words.join("|")})`, "ig");
       return text.replace(regex, (m) => chalk.bgYellow.black(m));
     } catch {
       return text;

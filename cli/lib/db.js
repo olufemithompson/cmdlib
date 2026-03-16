@@ -70,25 +70,41 @@ export function insertCommand(command) {
   });
 }
 
-// Search by keyword
+function toRow(row) {
+  return { ...row, steps: row.steps_json ? JSON.parse(row.steps_json) : null };
+}
+
+// Search by keyword — splits into words, scores by how many match
 export function searchCommands(keyword = "") {
-  const query = `%${keyword.toLowerCase()}%`;
+  if (!keyword.trim()) {
+    return db.prepare(`SELECT * FROM commands LIMIT 50`).all().map(toRow);
+  }
+
+  const words = keyword.trim().toLowerCase().split(/\s+/);
+  const likeArgs = words.map((w) => `%${w}%`);
+
+  // Each word that matches description scores 2, command scores 1
+  const scoreTerms = words.map(
+    () =>
+      `(CASE WHEN LOWER(description) LIKE ? THEN 2 ELSE 0 END) +` +
+      `(CASE WHEN LOWER(command) LIKE ? THEN 1 ELSE 0 END)`
+  );
+  const whereTerms = words.map(
+    () => `LOWER(description) LIKE ? OR LOWER(command) LIKE ?`
+  );
+
+  const scoreArgs = likeArgs.flatMap((p) => [p, p]);
+  const whereArgs = likeArgs.flatMap((p) => [p, p]);
 
   const stmt = db.prepare(`
-    SELECT * FROM commands
-    WHERE LOWER(description) LIKE ?
-       OR LOWER(command) LIKE ?
-       OR LOWER(steps_json) LIKE ? 
-       OR LOWER(os) LIKE ? 
-       OR LOWER(cmd_group) LIKE ? 
+    SELECT *, (${scoreTerms.join(" + ")}) as score
+    FROM commands
+    WHERE ${whereTerms.join(" OR ")}
+    ORDER BY score DESC
     LIMIT 50
   `);
-  const results = stmt.all(query, query, query, query, query);
 
-  return results.map((row) => ({
-    ...row,
-    steps: row.steps_json ? JSON.parse(row.steps_json) : null,
-  }));
+  return stmt.all(...scoreArgs, ...whereArgs).map(toRow);
 }
 
 export function getAllGroups() {

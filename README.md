@@ -20,27 +20,78 @@ cmdlib
 
 Launches an interactive search UI.
 
-### Search mode
+---
+
+### Search — empty (nothing typed)
 
 | Key | Action |
 |-----|--------|
-| Type anything | Filter your saved commands |
-| `↑` / `↓` | Navigate results |
-| `Enter` | Run the selected command |
-| `Ctrl+A` | Save the typed command (opens description prompt) |
-| `Ctrl+D` | Delete the selected command |
+| `↑` / `↓` | Navigate saved commands |
 | `Ctrl+R` | Open shell history browser |
 | `Esc` | Exit |
 
-### History mode (`Ctrl+R`)
+---
+
+### Search — typing (text entered, no selection)
 
 | Key | Action |
 |-----|--------|
-| Type anything | Filter shell history live |
+| `Enter` | New line (multi-line command) |
+| `Ctrl+A` | Save typed command (opens description prompt) |
+| `←` / `→` | Move cursor |
+| `Esc` | Exit |
+
+---
+
+### Search — with results and selection
+
+| Key | Action |
+|-----|--------|
 | `↑` / `↓` | Navigate results |
-| `Enter` | Run the selected command |
-| `Ctrl+A` | Save selected command with a description |
-| `Esc` | Go back to search |
+| `Enter` | Run selected command |
+| `Ctrl+D` | Delete selected command |
+| `Esc` | Exit |
+
+---
+
+### Add description prompt
+
+Opened via `Ctrl+A` from search or history.
+
+| Key | Action |
+|-----|--------|
+| Type | Enter description |
+| `←` / `→` | Move cursor |
+| `Enter` | Save command (does nothing if description is empty) |
+| `Esc` | Cancel |
+
+---
+
+### Delete confirmation
+
+Opened via `Ctrl+D` when a command is selected.
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Confirm delete |
+| `Esc` | Cancel |
+
+---
+
+### History mode (`Ctrl+R`)
+
+Browse and search your shell command history.
+
+| Key | Action |
+|-----|--------|
+| Type | Filter history (matches all words) |
+| `↑` / `↓` | Navigate results |
+| `←` / `→` | Move cursor in search input |
+| `Enter` | Run selected command |
+| `Ctrl+A` | Save selected command (opens description prompt) |
+| `Esc` | Go back |
+
+---
 
 ## Manual setup
 
